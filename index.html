@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>S9 Bet App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hidden { display: none; }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex flex-col items-center justify-start py-6 text-white">
+
+  <!-- AUTHENTICATION -->
+  <div id="authPage" class="flex flex-col items-center space-y-4 w-full max-w-xs px-4">
+    <h1 class="text-4xl font-bold">S9 Bet App</h1>
+    <input id="username" type="text" placeholder="Username" class="w-full px-4 py-2 rounded-xl text-black" />
+    <input id="password" type="password" placeholder="Password" class="w-full px-4 py-2 rounded-xl text-black" />
+    <button onclick="login()" class="w-full bg-green-500 hover:bg-green-700 px-4 py-2 rounded-xl">Login</button>
+    <button onclick="signup()" class="w-full bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-xl">Signup</button>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="mainAppArea" class="hidden w-full max-w-lg flex flex-col items-center space-y-6 px-4">
+
+    <!-- NAVIGATION -->
+    <div class="flex flex-wrap justify-center gap-4">
+      <button onclick="showPage('gamesPage')" class="bg-yellow-500 px-4 py-2 rounded-xl">Games</button>
+      <button onclick="showPage('depositPage')" class="bg-purple-600 px-4 py-2 rounded-xl">Deposit</button>
+      <button onclick="showPage('withdrawPage')" class="bg-pink-600 px-4 py-2 rounded-xl">Withdraw</button>
+      <button onclick="showBonus()" class="bg-green-400 px-4 py-2 rounded-xl">Bonus</button>
+    </div>
+
+    <!-- GAMES OVERVIEW -->
+    <div id="gamesPage" class="w-full flex flex-col items-center space-y-4">
+      <h2 class="text-2xl font-bold">Choose a Game</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        <button onclick="showGame('ludoPage')" class="bg-green-500 px-4 py-2 rounded-xl">Ludo</button>
+        <button onclick="showGame('spinPage')" class="bg-blue-600 px-4 py-2 rounded-xl">Spin</button>
+        <button onclick="showGame('cardPage')" class="bg-red-500 px-4 py-2 rounded-xl">Card Flip</button>
+      </div>
+    </div>
+
+    <!-- LUDO PAGE -->
+    <div id="ludoPage" class="hidden w-full flex flex-col items-center space-y-2">
+      <h3 class="text-xl font-semibold">Ludo Game</h3>
+      <p>Predict the die roll (1–6):</p>
+      <input id="ludoPrediction" type="number" min="1" max="6" placeholder="Your Guess" class="w-1/2 px-3 py-1 rounded-xl text-black" />
+      <button onclick="rollLudoDie()" class="bg-green-700 px-4 py-2 rounded-xl">Roll Die</button>
+      <p id="ludoResult" class="mt-2"></p>
+      <button onclick="showPage('gamesPage')" class="mt-4 text-sm underline">← Back to Games</button>
+    </div>
+
+    <!-- SPIN PAGE -->
+    <div id="spinPage" class="hidden w-full flex flex-col items-center space-y-2">
+      <h3 class="text-xl font-semibold">Spin Game</h3>
+      <button onclick="spinWheel()" class="bg-blue-700 px-4 py-2 rounded-xl">Spin the Wheel</button>
+      <p id="spinResult" class="mt-2"></p>
+      <button onclick="showPage('gamesPage')" class="mt-4 text-sm underline">← Back to Games</button>
+    </div>
+
+    <!-- CARD PAGE -->
+    <div id="cardPage" class="hidden w-full flex flex-col items-center space-y-2">
+      <h3 class="text-xl font-semibold">Card Flip Game</h3>
+      <div class="flex space-x-4">
+        <label><input type="radio" name="cardPredict" value="Red" /> Red</label>
+        <label><input type="radio" name="cardPredict" value="Black" /> Black</label>
+      </div>
+      <button onclick="drawCard()" class="bg-red-700 px-4 py-2 rounded-xl">Draw Card</button>
+      <p id="cardResult" class="mt-2"></p>
+      <button onclick="showPage('gamesPage')" class="mt-4 text-sm underline">← Back to Games</button>
+    </div>
+
+    <!-- DEPOSIT PAGE -->
+    <div id="depositPage" class="hidden w-full flex flex-col items-center space-y-2">
+      <h3 class="text-xl font-semibold">Deposit</h3>
+      <select id="depositBank" class="w-1/2 px-3 py-1 rounded-xl text-black">
+        <option value="Easypaisa">Easypaisa</option>
+        <option value="JazzCash">JazzCash</option>
+      </select>
+      <input id="depositAmount" type="number" placeholder="Amount PKR" class="w-1/2 px-3 py-1 rounded-xl text-black" />
+      <button onclick="openDepositPage()" class="bg-purple-700 px-4 py-2 rounded-xl">Submit</button>
+      <button onclick="showPage('gamesPage')" class="mt-4 text-sm underline">← Back to Games</button>
+    </div>
+
+    <!-- WITHDRAW PAGE -->
+    <div id="withdrawPage" class="hidden w-full flex flex-col items-center space-y-2">
+      <h3 class="text-xl font-semibold">Withdraw</h3>
+      <select id="withdrawBank" class="w-1/2 px-3 py-1 rounded-xl text-black">
+        <option value="Easypaisa">Easypaisa</option>
+        <option value="JazzCash">JazzCash</option>
+      </select>
+      <input id="withdrawAmount" type="number" placeholder="Amount PKR" class="w-1/2 px-3 py-1 rounded-xl text-black" />
+      <button onclick="openWithdrawPage()" class="bg-pink-700 px-4 py-2 rounded-xl">Submit</button>
+      <button onclick="showPage('gamesPage')" class="mt-4 text-sm underline">← Back to Games</button>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+    let bonusPoints = 0;
+
+    // AUTH
+    function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      const stored = JSON.parse(localStorage.getItem(u));
+      if (stored && stored.password === p) {
+        currentUser = stored;
+        document.getElementById('authPage').classList.add('hidden');
+        document.getElementById('mainAppArea').classList.remove('hidden');
+        showPage('gamesPage');
+      } else {
+        alert('Invalid credentials!');
+      }
+    }
+    function signup() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      if (!u || !p) return alert('Both fields required!');
+      localStorage.setItem(u, JSON.stringify({ username: u, password: p }));
+      login();
+    }
+
+    // PAGE NAV
+    function hideAllPages() {
+      ['gamesPage','ludoPage','spinPage','cardPage','depositPage','withdrawPage']
+        .forEach(id => document.getElementById(id).classList.add('hidden'));
+    }
+    function showPage(id) {
+      hideAllPages();
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function showGame(id) {
+      hideAllPages();
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    // LUDO
+    function rollLudoDie() {
+      const pred = parseInt(document.getElementById('ludoPrediction').value, 10);
+      const res  = Math.floor(Math.random()*6)+1;
+      const win  = pred === res;
+      if (win) bonusPoints += 10;
+      document.getElementById('ludoResult').innerText =
+        `Die: ${res}. You guessed ${pred}. ${win ? 'Bonus! +10' : 'Try again.'}`;
+    }
+
+    // SPIN
+    function spinWheel() {
+      const prizes = ["10 PKR","50 PKR","Not Won","20 PKR","2 PKR","Watch (30 PKR)"];
+      const pick   = prizes[Math.floor(Math.random()*prizes.length)];
+      const win    = pick !== "Not Won";
+      if (win) bonusPoints += 10;
+      document.getElementById('spinResult').innerText =
+        `Result: ${pick}. ${win ? 'Bonus! +10' : ''}`;
+    }
+
+    // CARD
+    function drawCard() {
+      const sel = document.querySelector('input[name="cardPredict"]:checked');
+      if (!sel) return alert('Select Red or Black!');
+      const draw = ["Red","Black"][Math.floor(Math.random()*2)];
+      const win  = sel.value === draw;
+      if (win) bonusPoints += 10;
+      document.getElementById('cardResult').innerText =
+        `Draw: ${draw}. ${win ? 'Bonus! +10' : ''}`;
+    }
+
+    // BONUS DISPLAY
+    function showBonus() {
+      alert(`Your bonus points: ${bonusPoints}`);
+    }
+
+    // DEPOSIT
+    function openDepositPage() {
+      const b = document.getElementById('depositBank').value;
+      const a = document.getElementById('depositAmount').value;
+      if (!a) return alert('Enter amount!');
+      alert(`Deposited ${a} PKR via ${b}.`);
+    }
+
+    // WITHDRAW (uses bonusPoints)
+    function openWithdrawPage() {
+      const b = document.getElementById('withdrawBank').value;
+      const a = parseInt(document.getElementById('withdrawAmount').value, 10);
+      if (!a) return alert('Enter amount!');
+      if (a > bonusPoints) {
+        return alert('Insufficient bonus balance!');
+      }
+      bonusPoints -= a;
+      alert(`Withdrew ${a} PKR via ${b}. Remaining bonus points: ${bonusPoints}`);
+    }
+  </script>
+
+</body>
+</html>
